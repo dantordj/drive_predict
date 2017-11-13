@@ -4,7 +4,6 @@ Created on Mon Nov 13 19:33:53 2017
 
 @author: bp
 """
-
 import numpy as np
 from sklearn.preprocessing import Imputer
 
