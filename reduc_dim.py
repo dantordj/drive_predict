@@ -1,8 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt 
+from read_dataset import read_dataset
 import math
 from imputation import count
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+
 
 def PCA(data):
 	N = len(data)
@@ -36,6 +38,11 @@ def scale(data):
 		m = np.mean(data[:][j])
 		v = np.std(data[:][j])
 		data[:][j] = (data[:][j] - m) / math.sqrt(v)
+	for j in range(len(date[:][0])):
+		m = np.mean(data[:][j])
+		v = np.std(data[:][j])
+		print(m,v)
+
 
 
 
