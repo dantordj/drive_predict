@@ -1,7 +1,10 @@
 from read_dataset import read_dataset
 
-data = read_dataset('train.csv')
+data, labels = read_dataset('train.csv')
+print(labels)
 print(type(data))
-print(len(data), " rows")
-print(len(data[0]), " columns")
-print(data[0])
+print(data)
+##print(len(data), " rows")
+##print(len(data[0]), " columns")
+##for i in range(100):
+##   print(data[i])
