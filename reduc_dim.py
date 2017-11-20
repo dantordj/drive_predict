@@ -44,8 +44,6 @@ def scale(data):
 		print(m,v)
 
 
-
-
 def LDA_process(X):
     l,n = X.shape
     lda = LinearDiscriminantAnalysis(n_components=2)
@@ -80,5 +78,4 @@ def LDA(X):
     y = X[:,-1]
     a,b = LDA_sort(Y,y,n0,n1)
     plotting_LDA(a,b)
-    
     
