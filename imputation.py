@@ -27,7 +27,9 @@ def count(data):
     return (temp0,temp1)
 
 def mean_computation(data):
-    means=data.groupby('ps_calc_20_bin'). mean()
+    data.replace(-1, np.nan)
+    means=data.groupby('target').mean()
+    data.replace(np.nan,-1)
     return means
 
 
