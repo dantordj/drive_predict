@@ -19,7 +19,6 @@ def count(data):
             temp1 += 1
     return (temp0,temp1)
 
-<<<<<<< HEAD
 
 def mean_computation(a):
     #prepare the training data (target column")
@@ -31,10 +30,6 @@ def mean_computation(a):
     else :
         means=data.mean()
     data.replace(np.nan,-1)
-=======
-def mean_computation(data):
-    means=data.groupby('ps_calc_20_bin'). mean()
->>>>>>> parent of 574631c... dataframe
     return means
 
 
@@ -59,3 +54,30 @@ def mean_imputation(data):
                 if data.loc[i,j] == -1:
                     data.loc[i,j] = means[j]
     return data
+
+def mean_imputation2(a):
+    
+    means = mean_computation(a).values
+    
+    data=a.values
+    data.astype(np.float16)
+    means.astype(np.float16)
+    l,n=data.shape
+    print(l,n)
+    if (n==59): 
+       for i in range (l):
+           if (i%10000==0):
+               print(i)
+           for j in range(2,n) :
+                if data[i,j] == -1:
+                    cat=int(data[i,1])
+                    data[i,j] = means[cat,j-2]
+            
+    else :
+        for i in range (l):
+            for j in range(1,n):
+                if data[i,j] == -1:
+                    data[i,j] = means[j-1]
+    test=pd.DataFrame(data)
+    test.columns=a.columns
+    return test
