@@ -42,11 +42,8 @@ def mean_imputation(a):
     data.astype(np.float16)
     means.astype(np.float16)
     l,n=data.shape
-    print(l,n)
     if (n==59): 
        for i in range (l):
-           if (i%10000==0):
-               print(i)
            for j in range(2,n) :
                 if data[i,j] == -1:
                     cat=int(data[i,1])
