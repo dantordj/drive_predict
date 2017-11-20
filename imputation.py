@@ -33,29 +33,8 @@ def mean_computation(a):
     return means
 
 
-def mean_imputation(data):
-    data.astype(np.float16)
-    means = mean_computation(data)
-    means.astype(np.float16)
-    l,n=data.shape
-    print(l,n)
-    if (n==59): 
-       for i in range (l):
-           if (i%10000==0):
-               print(i)
-           for j in means.columns: 
-                if data.loc[i,j] == -1:
-                    cat=int(data.loc[i,'target'])
-                    data.loc[i,j] = means.loc[cat,j]
-            
-    else :
-        for i in range (l):
-            for j in means.columns:
-                if data.loc[i,j] == -1:
-                    data.loc[i,j] = means[j]
-    return data
 
-def mean_imputation2(a):
+def mean_imputation(a):
     
     means = mean_computation(a).values
     
