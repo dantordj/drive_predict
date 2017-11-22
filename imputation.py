@@ -35,11 +35,9 @@ def mean_computation(a):
 
 
 def mean_imputation(a):
-    
+    data=a.values
     means = mean_computation(a).values
-    
-    data.astype(np.float16)
-    means.astype(np.float16)
+
     l,n=data.shape
     if (n==59): 
        for i in range (l):
