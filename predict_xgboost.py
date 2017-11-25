@@ -60,7 +60,7 @@ def predict_xgboost_k_fold(data,k,test_v):
         train_X = train_data[feature_columns_to_use]
         test_X = test_data[feature_columns_to_use]
         train_y = train_data['target']
-        gbm = xgb.XGBClassifier(learning_rate= 0.05, max_depth= 5, subsample= 0.9, colsample_bytree= 0.9, objective= 'binary:logistic', silent= True,  n_estimators=300)
+        gbm = xgb.XGBClassifier(learning_rate= 0.02, max_depth= 4, subsample= 0.9, colsample_bytree= 0.9, objective= 'binary:logistic', seed= 99, silent= True,  n_estimators=300)
         gbm=gbm.fit(train_X, train_y)
         predictions = gbm.predict_proba(test_X)
         results.append(gini_xgb(predictions, test_data)) 
