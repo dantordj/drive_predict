@@ -8,7 +8,7 @@ import xgboost as xgb
 import numpy as np
 from sklearn.model_selection import KFold
 from gini import *
-
+import lightgbm as lgb
     
 def predict_xgboost(train_df, test_df):
 
@@ -94,6 +94,7 @@ def test(train_df, test_df) :
         'scale_pos_weight':1.6
         #'n_thread':-1
     }
+    params2 = {'learning_rate': 0.024, 'max_depth': 5,'lambda_l1': 16.7, 'objective': 'binary', 'metric': 'auc', 'max_bin': 1000, 'feature_fraction': .7, 'is_training_metric': False, 'seed': 99}
     y_pred=[0]*test_df.shape[0]
     X_pred=test_df[feature_columns_to_use]
     
@@ -107,15 +108,31 @@ def test(train_df, test_df) :
         xgb_train = xgb.DMatrix(X_train, y_train)
         xgb_eval = xgb.DMatrix(X_test, y_test)
         watchlist = [(xgb_train,'train'),(xgb_eval,'test')]  
+        
+        
+        lgb_train = lgb.Dataset(X_train, y_train)
+        lgb_eval = lgb.Dataset(X_test, y_test, reference=lgb_train)
+          
         print('Start training...')
         # train
-        gbm = xgb.train(params,xgb_train,400,watchlist,early_stopping_rounds=50,verbose_eval=50)
+        model = lgb.train(params2,lgb_train,num_boost_round=2000,valid_sets=lgb_eval, verbose_eval=50,early_stopping_rounds=200)
+        print('Start training...')
+        # train
+        gbm = xgb.train(params,xgb_train,2000,watchlist,early_stopping_rounds=50,verbose_eval=50)
         print('Start predicting...')
         # predict
-        y_eval = gbm.predict(xgb.DMatrix(X_test))
-        y_pred += gbm.predict(xgb.DMatrix(X_pred))
-        results += gini_xgb(y_eval, test_data)
-    
+        y_eval = gbm.predict(xgb.DMatrix(X_test),ntree_limit=gbm.best_ntree_limit+50)
+        y_pred += gbm.predict(xgb.DMatrix(X_pred),ntree_limit=gbm.best_ntree_limit+50)
+        
+        
+        y_eval += model.predict(X_test, num_iteration=model.best_iteration)
+        y_pred += model.predict(X_pred, num_iteration=model.best_iteration)
+        
+        y_eval = y_eval/2
+        y_pred = y_pred/2
+        
+        results += gini_lgb(y_eval, test_data)
+        
     return results/k, y_pred/k
 
 def submit(predictions, test_df):
