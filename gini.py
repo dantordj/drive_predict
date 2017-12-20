@@ -25,3 +25,8 @@ def gini_xgb(preds, dtrain):
     labels = dtrain['target']
     gini_score = gini_normalized(labels, preds)
     return gini_score
+
+def gini_lgb(preds, dtrain):
+    y = dtrain['target']
+    score = gini(y, preds) / gini(y, y)
+    return  score
