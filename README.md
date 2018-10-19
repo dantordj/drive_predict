@@ -1,6 +1,6 @@
 # drive_predict
 
-Kaggle1
+Kaggle competition. The algorithm aims at predicting the probability that a driver will initiate an auto insurance claim in the next year
 
 ## Requirements
 
